@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-xs-12">
+    <button 
+    class="btn btn-success"
+    >
+      <a
+      style="color: inherit; text-decoration: none;"
+      routerLink="new"
+      >Add new recipe</a>
+  </button>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-group">
+      <li style="list-style: 'none'" *ngFor="let recipeData of recipes">
+        <app-recipe-item
+          [recipe]="recipeData"
+        ></app-recipe-item>
+      </li>
+    </ul>
+  </div>
+</div>

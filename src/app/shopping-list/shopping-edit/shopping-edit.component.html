@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form (ngSubmit)="onSubmit(formRef)" #formRef="ngForm">
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="name">Name</label>
+          <input 
+            type="text" 
+            id="name"
+            name="name"
+            ngModel
+            class="form-control"
+            required
+          >
+          <div
+           *ngIf="formRef.form?.controls?.name?.invalid && formRef.submitted"
+          >
+          is invalid
+          </div>  
+        </div>
+        <div class="col-sm-2 form-group">
+          <label for="amount">Amount</label>
+          <input 
+          type="number" 
+          id="amount" 
+          name="amount"
+          ngModel 
+          class="form-control"
+          required
+          />
+          <div
+           *ngIf="formRef.form?.controls?.amount?.invalid && formRef.submitted"
+          >
+           Is invalid
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button 
+            class="btn btn-success" 
+            type="submit"
+            [disabled]="!formRef.form.valid"
+          >
+           {{ mode === 'edit' ? 'Update' : 'Add'}}
+          </button>
+          <button class="btn btn-primary" type="button" (click)="formRef.reset(); mode = 'new'">Clear</button>
+          <button *ngIf="mode === 'edit'" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
