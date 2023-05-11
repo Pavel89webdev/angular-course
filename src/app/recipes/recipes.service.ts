@@ -1,11 +1,10 @@
-import { EventEmitter } from '@angular/core';
-import { Ingredient } from '../shared/ingredient.model';
-import { Recipe } from './recipe.model';
-import { Subject } from 'rxjs';
+import { EventEmitter } from '@angular/core'
+import { Ingredient } from '../shared/ingredient.model'
+import { Recipe } from './recipe.model'
+import { Subject } from 'rxjs'
 
 export class RecipiesService {
-
-  public recipiesSubject = new Subject<Recipe[]>();
+  public recipiesSubject = new Subject<Recipe[]>()
 
   // private recipies: Recipe[] = [
   //   new Recipe(
@@ -30,41 +29,41 @@ export class RecipiesService {
   //     '2'
   //   ),
   // ];
-  private recipies: Recipe[] = [];
+  private recipies: Recipe[] = []
 
-  getRecipies(){
-    return [...this.recipies];
+  getRecipies() {
+    return [...this.recipies]
   }
 
   getRecipieById(recipeId: string): [Recipe, number] {
     return [
-      this.recipies.find(({id}) => id === recipeId), 
-      this.recipies.findIndex(({id}) => id === recipeId)
-    ];
+      this.recipies.find(({ id }) => id === recipeId),
+      this.recipies.findIndex(({ id }) => id === recipeId),
+    ]
   }
 
-  addRecipe(recipe: Recipe){
-    this.recipies.push(recipe);
+  addRecipe(recipe: Recipe) {
+    this.recipies.push(recipe)
     this.recipiesSubject.next([...this.recipies])
   }
 
   updateRecipe(index: number, recipe: Recipe) {
-    this.recipies[index] = recipe;
+    this.recipies[index] = recipe
     this.recipiesSubject.next([...this.recipies])
   }
 
-  updateAllRecipes(newRecipes: Recipe[]){
-    this.recipies = newRecipes;
+  updateAllRecipes(newRecipes: Recipe[]) {
+    this.recipies = newRecipes
     this.recipiesSubject.next(this.getRecipies())
   }
 
   getNextId() {
-   return String(this.recipies.length + 1);
+    return String(this.recipies.length + 1)
   }
 
   deleteRecipe(id: string) {
-    const [ _ ,recipeIndex] = this.getRecipieById(id);
-    this.recipies.splice(recipeIndex, 1);
-    this.recipiesSubject.next(this.recipies);
+    const [_, recipeIndex] = this.getRecipieById(id)
+    this.recipies.splice(recipeIndex, 1)
+    this.recipiesSubject.next(this.recipies)
   }
 }

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { RecipeDetailComponent } from './recipe-detail.component'
+import { AuthComponent } from './auth.component'
 
-describe('RecipeDetailComponent', () => {
-  let component: RecipeDetailComponent
-  let fixture: ComponentFixture<RecipeDetailComponent>
+describe('AuthComponent', () => {
+  let component: AuthComponent
+  let fixture: ComponentFixture<AuthComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RecipeDetailComponent],
+      declarations: [AuthComponent],
     }).compileComponents()
   })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RecipeDetailComponent)
+    fixture = TestBed.createComponent(AuthComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

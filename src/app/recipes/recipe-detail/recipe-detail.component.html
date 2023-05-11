@@ -22,19 +22,14 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a class="pointer" (click)="toShoppingList()" >To shopping list</a></li>
         <li>
-          <a 
-          class="pointer"
-          routerLink="edit"
-          >
-            Edit Recipe
-          </a></li>
+          <a class="pointer" (click)="toShoppingList()">To shopping list</a>
+        </li>
         <li>
-          <a 
-          class="pointer"
-          (click)="onDeleteRecipe()"
-          >Delete Recipe</a>
+          <a class="pointer" routerLink="edit"> Edit Recipe </a>
+        </li>
+        <li>
+          <a class="pointer" (click)="onDeleteRecipe()">Delete Recipe</a>
         </li>
       </ul>
     </div>
