@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { CommonModule } from '@angular/common'
 
 import { AppComponent } from './app.component'
@@ -19,6 +19,8 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipiesService } from './recipes/recipes.service'
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component'
 import { AuthComponent } from './auth/auth.component'
+import { SpinnerComponent } from './shared/spinner/spinner.component'
+import { AuthInterceptor } from './auth/auth-interceptor.service'
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { AuthComponent } from './auth/auth.component'
     RecipeEditComponent,
     RecipeDetailComponent,
     AuthComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,16 @@ import { AuthComponent } from './auth/auth.component'
     // custom modules:
     AppRouterModule,
   ],
-  providers: [ShoppingListService, RecipiesService],
+  providers: [
+    ShoppingListService,
+    RecipiesService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

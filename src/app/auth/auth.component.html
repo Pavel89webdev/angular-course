@@ -29,5 +29,14 @@
         </button>
       </div>
     </form>
+    <hr/>
+    <div  class="row">
+      <div *ngIf="isLoading" class="col-xs-6 col-xs-offset-6">
+        <app-spinner></app-spinner>
+      </div>
+      <div *ngIf="error" class="col-xs-12">
+        <div class="alert alert-danger"><p>{{ error }}</p></div>
+      </div>
+    </div>
   </div>
 </div>
