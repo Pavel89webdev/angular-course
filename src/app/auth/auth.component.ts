@@ -40,8 +40,8 @@ export class AuthComponent implements OnInit {
 
   private *onSwitchMode() {
     while (true) {
-      yield (this.mode = 'login')
       yield (this.mode = 'singUp')
+      yield (this.mode = 'login')
     }
   }
 

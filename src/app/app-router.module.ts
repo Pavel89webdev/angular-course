@@ -8,6 +8,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component'
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component'
 import { RecipeResolverService } from './recipes/recipe-resolver.service'
 import { AuthComponent } from './auth/auth.component'
+import { AuthGuard } from './auth/auth.guard'
 
 export enum ERoutes {
   recipies = 'recipies',
@@ -24,6 +25,7 @@ const routes: Routes = [
   {
     path: ERoutes.recipies,
     component: RecipesComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -48,6 +50,7 @@ const routes: Routes = [
   {
     path: ERoutes.shoppingList,
     component: ShoppingListComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: ERoutes.auth,

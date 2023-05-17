@@ -21,6 +21,8 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { AuthComponent } from './auth/auth.component'
 import { SpinnerComponent } from './shared/spinner/spinner.component'
 import { AuthInterceptor } from './auth/auth-interceptor.service'
+import { BrowserStorageService } from './auth/browesr-storage.service'
+import { AuthGuard } from './auth/auth.guard'
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { AuthInterceptor } from './auth/auth-interceptor.service'
       useClass: AuthInterceptor,
       multi: true,
     },
+    BrowserStorageService,
+    AuthGuard,
   ],
 
   bootstrap: [AppComponent],

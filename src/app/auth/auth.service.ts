@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, throwError } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { User } from './user.model'
+import { Router } from '@angular/router'
+import { BrowserStorageService } from './browesr-storage.service'
 
 export interface IAuthResponseData {
   idToken: string
@@ -32,8 +34,13 @@ export class AuthService {
   API_KEY = 'AIzaSyAVXC5PS4Tj57nUDEONR5Q6rxB-NOQczMM'
 
   user = new BehaviorSubject<User>(null)
+  autoLogoutTimer: number;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private browserStorageService: BrowserStorageService,
+    ) {}
 
   singUp({ email, password }: { email: string; password: string }) {
     const singUpUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.API_KEY}`
@@ -70,6 +77,8 @@ export class AuthService {
     const expiresInDate = new Date(Date.now() + Number(expiresIn) * 1000)
     const newUser = new User(email, localId, idToken, expiresInDate)
     this.user.next(newUser)
+    this.browserStorageService.storeUser(newUser);
+    this.setAutoLogout(Number(expiresIn) * 1000);
   }
 
   handleError(errorResponseData?: IErrorData) {
@@ -99,5 +108,34 @@ export class AuthService {
     }
 
     return throwError(() => new Error(errorMessage))
+  }
+
+  logout(){
+    this.user.next(null);
+    this.router.navigate(['/auth']);
+    this.browserStorageService.clearUser();
+
+    if(this.autoLogoutTimer) {
+      clearTimeout(this.autoLogoutTimer);
+      this.autoLogoutTimer = null;
+    }
+  }
+
+  autoLogin(){
+    const storedUser = this.browserStorageService.getUser();
+    
+    if(!storedUser) return;
+
+    this.user.next(storedUser);
+
+    const expirationDuration = storedUser.tokenExpirationDate;
+    const expirationDration = expirationDuration.getTime() - Date.now()
+    this.setAutoLogout(expirationDration);
+  }
+
+  setAutoLogout(exiratoinDuration: number) {
+    this.autoLogoutTimer = setTimeout(()=>{
+      this.logout()
+    }, exiratoinDuration) as unknown as number;
   }
 }
