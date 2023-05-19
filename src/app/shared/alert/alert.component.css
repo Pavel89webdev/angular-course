@@ -1,0 +1,25 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.alert-box {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 3;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.alert-box-actions {
+    display: flex;
+    justify-content: center;
+}

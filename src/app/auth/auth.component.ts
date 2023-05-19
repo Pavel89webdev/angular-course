@@ -1,31 +1,35 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ComponentFactoryResolver, OnInit, ViewChild, EventEmitter, OnDestroy } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import {
   AuthService,
   IAuthResponseData,
   ISinginResponseData,
 } from './auth.service'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { Router } from '@angular/router'
 import { ERoutes } from '../app-router.module'
+import { AlertComponent } from '../shared/alert/alert.component'
+import { AppPlaceHolderDirective } from '../directives/placeholder.directive'
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   public mode: 'login' | 'singUp' = 'login'
   public isLoading = false
   public error: string
-
   public onSwitchGenerator: Generator
-
   public authForm: FormGroup
+  private errorAlertCloseSub: EventEmitter<void>
+
+  @ViewChild(AppPlaceHolderDirective) placeToPastAlertRef: AppPlaceHolderDirective;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private componentFectoryResolver: ComponentFactoryResolver,
     ) {}
 
   ngOnInit(): void {
@@ -87,7 +91,34 @@ export class AuthComponent implements OnInit {
       error: (errorMessage) => {
         this.error = errorMessage
         this.isLoading = false
+        this.setErrorModal(errorMessage)
       },
     })
+  }
+
+  onErrorHandle() {
+    this.error = null;
+  }
+
+  setErrorModal(errorMessage: string){
+    // const alertComponentFactory = this.componentFectoryResolver.resolveComponentFactory(AlertComponent); - it not required for now,. Now we can pass component directly to createComponent method
+    const viewContainerRef = this.placeToPastAlertRef.viewContainerRef;
+
+    viewContainerRef.clear();
+    const alertCmponentRef = viewContainerRef.createComponent(AlertComponent);
+
+    alertCmponentRef.instance.message = errorMessage; 
+    this.errorAlertCloseSub = alertCmponentRef.instance.close;
+
+    this.errorAlertCloseSub.subscribe(() => {
+      viewContainerRef.clear();
+      this.errorAlertCloseSub.unsubscribe()
+    })
+  }
+
+  ngOnDestroy(): void {
+    if(this.errorAlertCloseSub){
+      this.errorAlertCloseSub.unsubscribe()
+    }
   }
 }

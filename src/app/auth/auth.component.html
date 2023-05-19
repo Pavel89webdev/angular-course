@@ -1,3 +1,4 @@
+<ng-template [appPlaceholder] ></ng-template>
 <div class="row">
   <div class="col-xs-12 col-md-6 col-md-offset-3">
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
@@ -34,9 +35,10 @@
       <div *ngIf="isLoading" class="col-xs-6 col-xs-offset-6">
         <app-spinner></app-spinner>
       </div>
-      <div *ngIf="error" class="col-xs-12">
+      <!-- <div *ngIf="error" class="col-xs-12">
         <div class="alert alert-danger"><p>{{ error }}</p></div>
-      </div>
+      </div> -->
+      <!-- <app-alert *ngIf="error" [message]="error" (close)="onErrorHandle()"></app-alert> -->
     </div>
   </div>
 </div>

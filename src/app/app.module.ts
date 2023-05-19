@@ -22,7 +22,9 @@ import { AuthComponent } from './auth/auth.component'
 import { SpinnerComponent } from './shared/spinner/spinner.component'
 import { AuthInterceptor } from './auth/auth-interceptor.service'
 import { BrowserStorageService } from './auth/browesr-storage.service'
-import { AuthGuard } from './auth/auth.guard'
+import { AuthGuard } from './auth/auth.guard';
+import { AlertComponent } from './shared/alert/alert.component'
+import { AppPlaceHolderDirective } from './directives/placeholder.directive'
 
 @NgModule({
   declarations: [
@@ -33,16 +35,18 @@ import { AuthGuard } from './auth/auth.guard'
     RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
-    DropdownDirective,
     RecipeStartComponent,
     RecipeEditComponent,
     RecipeDetailComponent,
     AuthComponent,
     SpinnerComponent,
+    AlertComponent,
+    // directives
+    DropdownDirective,
+    AppPlaceHolderDirective,
   ],
   imports: [
     BrowserModule,
-    // CommonModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
