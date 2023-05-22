@@ -25,36 +25,28 @@ import { BrowserStorageService } from './auth/browesr-storage.service'
 import { AuthGuard } from './auth/auth.guard';
 import { AlertComponent } from './shared/alert/alert.component'
 import { AppPlaceHolderDirective } from './directives/placeholder.directive'
+import { RecipesModule } from './recipes/recipes.module'
+import { ShoppingListModule } from './shopping-list/shopping-list.module'
+import { SharedModule } from './shared/shared.module'
+import { AuthModule } from './auth/auth.module'
 
 @NgModule({
   declarations: [
-    AppComponent,
     HeaderComponent,
-    RecipesComponent,
-    RecipeListComponent,
-    RecipeItemComponent,
-    ShoppingListComponent,
-    ShoppingEditComponent,
-    RecipeStartComponent,
-    RecipeEditComponent,
-    RecipeDetailComponent,
-    AuthComponent,
-    SpinnerComponent,
-    AlertComponent,
-    // directives
-    DropdownDirective,
-    AppPlaceHolderDirective,
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule,
     // custom modules:
+    SharedModule,
     AppRouterModule,
+    RecipesModule,
+    ShoppingListModule,
+    AuthModule
   ],
   providers: [
-    ShoppingListService,
     RecipiesService,
     {
       provide: HTTP_INTERCEPTORS,
