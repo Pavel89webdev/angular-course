@@ -1,34 +1,16 @@
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
-import { CommonModule } from '@angular/common'
 
-import { AppComponent } from './app.component'
-import { HeaderComponent } from './header/header.component'
-import { RecipesComponent } from './recipes/recipes.component'
-import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component'
-import { RecipeItemComponent } from './recipes/recipe-list/recipe-item/recipe-item.component'
-import { ShoppingListComponent } from './shopping-list/shopping-list.component'
-import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { DropdownDirective } from './directives/dropdown.directive'
-import { ShoppingListService } from './shopping-list/shoppingList.service'
+import { FormsModule } from '@angular/forms'
 import { AppRouterModule } from './app-router.module'
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component'
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component'
-import { RecipiesService } from './recipes/recipes.service'
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component'
-import { AuthComponent } from './auth/auth.component'
-import { SpinnerComponent } from './shared/spinner/spinner.component'
+import { AppComponent } from './app.component'
 import { AuthInterceptor } from './auth/auth-interceptor.service'
+import { AuthGuard } from './auth/auth.guard'
 import { BrowserStorageService } from './auth/browesr-storage.service'
-import { AuthGuard } from './auth/auth.guard';
-import { AlertComponent } from './shared/alert/alert.component'
-import { AppPlaceHolderDirective } from './directives/placeholder.directive'
-import { RecipesModule } from './recipes/recipes.module'
-import { ShoppingListModule } from './shopping-list/shopping-list.module'
+import { HeaderComponent } from './header/header.component'
+import { RecipiesService } from './recipes/recipes.service'
 import { SharedModule } from './shared/shared.module'
-import { AuthModule } from './auth/auth.module'
 
 @NgModule({
   declarations: [
@@ -42,9 +24,6 @@ import { AuthModule } from './auth/auth.module'
     // custom modules:
     SharedModule,
     AppRouterModule,
-    RecipesModule,
-    ShoppingListModule,
-    AuthModule
   ],
   providers: [
     RecipiesService,

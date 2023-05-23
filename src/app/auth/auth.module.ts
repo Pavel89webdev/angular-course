@@ -1,15 +1,14 @@
-import { NgModule } from "@angular/core";
-import { AuthComponent } from "./auth.component";
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from "../shared/shared.module";
-import { ERoutes } from "../app-router.module";
+import { AuthComponent } from "./auth.component";
 
 const routes: Routes = [
     {
-    path: ERoutes.auth,
+    path: '',
     component: AuthComponent
   }
 ]

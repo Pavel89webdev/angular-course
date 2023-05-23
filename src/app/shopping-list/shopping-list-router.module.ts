@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core'
-import { Router, RouterModule, Routes } from '@angular/router'
-import { ERoutes } from '../app-router.module'
+import { RouterModule, Routes } from '@angular/router'
 import { AuthGuard } from '../auth/auth.guard'
 import { ShoppingListComponent } from './shopping-list.component'
 
 const routes: Routes = [
   {
-    path: ERoutes.shoppingList,
+    path: '',
     component: ShoppingListComponent,
     canActivate: [AuthGuard],
   },

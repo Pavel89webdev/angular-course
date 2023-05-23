@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core'
-import { ShoppingEditComponent } from './shopping-edit/shopping-edit.component'
-import { ShoppingListComponent } from './shopping-list.component'
 import { CommonModule } from '@angular/common'
 import { HttpClientModule } from '@angular/common/http'
+import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { ShoppingListService } from './shoppingList.service'
+import { ShoppingEditComponent } from './shopping-edit/shopping-edit.component'
 import { ShoppingListRouterModule } from './shopping-list-router.module'
+import { ShoppingListComponent } from './shopping-list.component'
 
 @NgModule({
   declarations: [ShoppingListComponent, ShoppingEditComponent],
-  providers: [ShoppingListService],
   imports: [
     CommonModule,
     FormsModule,

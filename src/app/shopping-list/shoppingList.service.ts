@@ -1,7 +1,11 @@
 import { Subject } from 'rxjs'
 
 import { Ingredient } from '../shared/ingredient.model'
+import { Injectable } from '@angular/core'
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ShoppingListService {
   public ingredientsListChange$ = new Subject<Ingredient[]>()
   public editingIngredient$ = new Subject<Ingredient>()
