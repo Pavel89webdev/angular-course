@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
+import { StoreModule } from '@ngrx/store';
 
 import { FormsModule } from '@angular/forms'
 import { AppRouterModule } from './app-router.module'
@@ -11,6 +12,7 @@ import { BrowserStorageService } from './auth/browesr-storage.service'
 import { HeaderComponent } from './header/header.component'
 import { RecipiesService } from './recipes/recipes.service'
 import { SharedModule } from './shared/shared.module'
+import { appStoreConfig } from './store/app-store';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { SharedModule } from './shared/shared.module'
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    StoreModule.forRoot(appStoreConfig),
     // custom modules:
     SharedModule,
     AppRouterModule,
