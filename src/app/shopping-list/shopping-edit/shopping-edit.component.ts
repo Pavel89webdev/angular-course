@@ -11,9 +11,9 @@ import { NgForm } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { Subscription } from 'rxjs'
 import { Ingredient } from 'src/app/shared/ingredient.model'
-import { IAppState } from 'src/app/store/app-store'
-import * as shoppingListActions from 'src/app/store/shopping-list/shopping-list.actions'
-import { NO_INDEX } from 'src/app/store/shopping-list/shopping-list.reducer'
+import * as fromApp from 'src/app/store/app.reducer'
+import * as shoppingListActions from 'src/app/shopping-list/store/shopping-list.actions'
+import { NO_INDEX } from 'src/app/shopping-list/store/shopping-list.reducer'
 
 @Component({
   selector: 'app-shopping-edit',
@@ -28,7 +28,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editingIndex = NO_INDEX;
   shoppingListSub: Subscription
 
-  constructor(private store: Store<IAppState>) {}
+  constructor(private store: Store<fromApp.IAppState>) {}
 
   ngOnInit(): void {
     this.shoppingListSub = this.store.select('shoppingList').subscribe((shoppingList) => {

@@ -12,7 +12,11 @@ import { BrowserStorageService } from './auth/browesr-storage.service'
 import { HeaderComponent } from './header/header.component'
 import { RecipiesService } from './recipes/recipes.service'
 import { SharedModule } from './shared/shared.module'
-import { appStoreConfig } from './store/app-store';
+import { appReducers } from './store/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffect } from './auth/store/auth.effect';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,9 @@ import { appStoreConfig } from './store/app-store';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    StoreModule.forRoot(appStoreConfig),
+    EffectsModule.forRoot([AuthEffect]),
+    StoreModule.forRoot(appReducers),
+    StoreDevtoolsModule.instrument({logOnly: environment.production}),
     // custom modules:
     SharedModule,
     AppRouterModule,

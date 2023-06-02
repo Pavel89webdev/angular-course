@@ -1,15 +1,11 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild, EventEmitter, OnDestroy } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import {
-  AuthService,
-  IAuthResponseData,
-  ISinginResponseData,
-} from './auth.service'
-import { Observable, Subscription } from 'rxjs'
-import { Router } from '@angular/router'
-import { ERoutes } from '../app-router.module'
-import { AlertComponent } from '../shared/alert/alert.component'
+import { Store } from '@ngrx/store'
 import { AppPlaceHolderDirective } from '../directives/placeholder.directive'
+import { AlertComponent } from '../shared/alert/alert.component'
+import { IAppState } from '../store/app.reducer'
+import * as authActoins from './store/auth.action'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-auth',
@@ -24,12 +20,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   public authForm: FormGroup
   private errorAlertCloseSub: EventEmitter<void>
 
+  private storeSub: Subscription
+
   @ViewChild(AppPlaceHolderDirective) placeToPastAlertRef: AppPlaceHolderDirective;
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private componentFectoryResolver: ComponentFactoryResolver,
+    private store: Store<IAppState>
     ) {}
 
   ngOnInit(): void {
@@ -39,6 +35,18 @@ export class AuthComponent implements OnInit, OnDestroy {
         Validators.minLength(6),
       ]),
       email: new FormControl(null, [Validators.required, Validators.email]),
+    })
+
+    this.storeSub = this.store.select('auth').subscribe((authState) => {
+
+      const { errorMessage, logginInProcess, user } = authState;
+
+      this.isLoading = logginInProcess;
+      this.error = errorMessage;
+      if(this.error){
+        this.setErrorModal(this.error);
+      }
+
     })
   }
 
@@ -60,48 +68,27 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.authForm)
-
     if (this.authForm.invalid) return
 
     this.isLoading = true;
-    this.error = null;
-
-    let authObs: Observable<ISinginResponseData | IAuthResponseData>
 
     const { email, password } = this.authForm.value
 
     if (this.mode === 'singUp') {
-      authObs = this.authService.singUp({
+      this.store.dispatch(new authActoins.SingupStartAction({
         email,
-        password,
-      })
+        password
+      }))
     }
     if (this.mode === 'login') {
-      authObs = this.authService.login({
+      this.store.dispatch(new authActoins.LoginStartAction({
         email,
-        password,
-      })
+        password
+      }))
     }
-
-    authObs.subscribe({
-      next: (result) => {
-        this.router.navigate([`/${ERoutes.recipies}`])
-      },
-      error: (errorMessage) => {
-        this.error = errorMessage
-        this.isLoading = false
-        this.setErrorModal(errorMessage)
-      },
-    })
-  }
-
-  onErrorHandle() {
-    this.error = null;
   }
 
   setErrorModal(errorMessage: string){
-    // const alertComponentFactory = this.componentFectoryResolver.resolveComponentFactory(AlertComponent); - it not required for now,. Now we can pass component directly to createComponent method
     const viewContainerRef = this.placeToPastAlertRef.viewContainerRef;
 
     viewContainerRef.clear();
@@ -120,5 +107,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if(this.errorAlertCloseSub){
       this.errorAlertCloseSub.unsubscribe()
     }
+
+    this.storeSub.unsubscribe()
   }
 }
