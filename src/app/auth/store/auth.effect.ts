@@ -3,11 +3,6 @@ import * as authActions from './auth.action'
 import { of } from 'rxjs'
 import { switchMap, map, catchError, tap } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
-// import {
-//   IAuthResponseData,
-//   IErrorData,
-//   ISinginResponseData,
-// } from '../auth.service'
 import { User } from '../user.model'
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
@@ -97,18 +92,16 @@ export class AuthEffect {
           })
           .pipe(
             map((responseData) => {
-              return new authActions.LoginSucsessAction(
-                this.getUserFromResponse(responseData)
-              )
+              return new authActions.LoginSucsessAction({
+                user: this.getUserFromResponse(responseData),
+                redirect: true,
+              })
             }),
             catchError((errorResponseData?: IErrorData) => {
               const errorMessage =
                 this.getErrorMessageFromResponse(errorResponseData)
               return of(new authActions.LoginErrorAction(errorMessage))
             })
-            // tap(() => {
-            //   return this.router.navigate([`/${ERoutes.recipies}`])
-            // })
           )
       })
     )
@@ -145,15 +138,36 @@ export class AuthEffect {
     )
   })
 
-  succsessEffect = createEffect(
+  succsessSingUpEffect = createEffect(
     () => {
       return this.action$.pipe(
-        ofType(authActions.SINGUP_SUCCSESS, authActions.LOGIN_SUCCSSES),
+        ofType(authActions.SINGUP_SUCCSESS),
         tap(({ payload }) => {
           this.browserStorageService.storeUser(payload)
           this.authService.setAutoLogout(payload.tokenExpirationDate)
 
           this.router.navigate([`/${ERoutes.recipies}`])
+        })
+      )
+    },
+    {
+      dispatch: false,
+    }
+  )
+
+  succsessLoginEffect = createEffect(
+    () => {
+      return this.action$.pipe(
+        ofType(authActions.LOGIN_SUCCSSES),
+        tap(({ payload }) => {
+          const { redirect, user } = payload
+          this.browserStorageService.storeUser(user)
+          this.authService.setAutoLogout(user.tokenExpirationDate)
+
+          if(redirect) {
+            this.router.navigate([`/${ERoutes.recipies}`])
+          }
+
         })
       )
     },
@@ -177,7 +191,9 @@ export class AuthEffect {
         const user = new User(email, id, token, tokenExpirationDate)
 
         if (user.token) {
-          return of(new authActions.LoginSucsessAction(user))
+          return of(
+            new authActions.LoginSucsessAction({ user, redirect: false })
+          )
         }
 
         return of()

@@ -15,7 +15,6 @@ import { IAppState } from '../store/app.reducer'
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
     private store: Store<IAppState>,
     ) {}
 

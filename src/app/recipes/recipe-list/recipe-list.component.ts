@@ -6,8 +6,9 @@ import {
   OnDestroy,
 } from '@angular/core'
 import { Recipe } from '../recipe.model'
-import { RecipiesService } from '../recipes.service'
 import { Subscription } from 'rxjs'
+import { IAppState } from 'src/app/store/app.reducer'
+import { Store } from '@ngrx/store'
 
 @Component({
   selector: 'app-recipe-list',
@@ -16,21 +17,21 @@ import { Subscription } from 'rxjs'
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = []
-  recipiesServiceSub: Subscription
+  recipiesStoreSub: Subscription
 
-  constructor(private recipiesService: RecipiesService) {}
+  constructor(
+    private store: Store<IAppState>
+    ) {}
 
   ngOnInit(): void {
-    this.recipes = this.recipiesService.getRecipies()
-
-    this.recipiesServiceSub = this.recipiesService.recipiesSubject.subscribe(
-      (newRecipies) => {
-        this.recipes = newRecipies
+    this.recipiesStoreSub = this.store.select('recipes').subscribe(
+      (recipies) => {
+        this.recipes = recipies.recipes
       }
     )
   }
 
   ngOnDestroy(): void {
-    this.recipiesServiceSub.unsubscribe()
+    this.recipiesStoreSub.unsubscribe()
   }
 }

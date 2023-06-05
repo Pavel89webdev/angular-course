@@ -22,7 +22,7 @@ export class LoginStartAction implements Action {
 export class LoginSucsessAction implements Action {
   readonly type = LOGIN_SUCCSSES
 
-  constructor(public payload: User) {}
+  constructor(public payload: {user: User, redirect: boolean}) {}
 }
 
 export class LoginErrorAction implements Action {

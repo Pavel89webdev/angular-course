@@ -26,10 +26,15 @@ export const authReducer = (
         errorMessage: null,
       }
     case actions.SINGUP_SUCCSESS:
-    case actions.LOGIN_SUCCSSES:
       return {
         ...state,
         user: action.payload,
+        logginInProcess: false,
+      }
+    case actions.LOGIN_SUCCSSES:
+      return {
+        ...state,
+        user: action.payload.user,
         logginInProcess: false,
       }
     case actions.SIGNUP_ERROR:
@@ -44,6 +49,6 @@ export const authReducer = (
         ...initialState,
       }
     default:
-      return initialState
+      return state
   }
 }

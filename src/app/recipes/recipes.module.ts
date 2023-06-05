@@ -10,6 +10,7 @@ import { RecipeListComponent } from './recipe-list/recipe-list.component'
 import { RecipeStartComponent } from './recipe-start/recipe-start.component'
 import { RecipesRouterModule } from './recipes-router.modules'
 import { RecipesComponent } from './recipes.component'
+import { RecipeResolver } from './recipes-resolver.service'
 
 @NgModule({
   imports: [
@@ -19,6 +20,10 @@ import { RecipesComponent } from './recipes.component'
     FormsModule,
     RecipesRouterModule,
     SharedModule,
+    // RecipeResolver
+  ],
+  providers: [
+    RecipeResolver
   ],
   declarations: [
     RecipesComponent,

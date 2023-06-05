@@ -9,6 +9,5 @@ export class RecipeStartComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // если роут нужный не показываем заглушку иначе - показываем
   }
 }
