@@ -26,8 +26,8 @@ export class RecipeDetailComponent implements OnInit, OnDestroy  {
 
   ngOnInit(): void {
     this.route.params.pipe(
-      map(({ id }: Params) => {
-        this.id = id;
+      map((params: Params) => {
+        this.id = params?.id;
       }),
       switchMap(() => {
         return this.store.select('recipes')

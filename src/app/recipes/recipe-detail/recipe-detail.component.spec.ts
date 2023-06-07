@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { RecipeDetailComponent } from './recipe-detail.component'
+import { StoreModule } from '@ngrx/store'
+import { appReducers } from 'src/app/store/app.reducer'
+import { AppRouterModule } from 'src/app/app-router.module'
 
 describe('RecipeDetailComponent', () => {
   let component: RecipeDetailComponent
@@ -9,6 +12,7 @@ describe('RecipeDetailComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeDetailComponent],
+      imports: [StoreModule.forRoot(appReducers), AppRouterModule],
     }).compileComponents()
   })
 
@@ -16,7 +20,7 @@ describe('RecipeDetailComponent', () => {
     fixture = TestBed.createComponent(RecipeDetailComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
-  })
+  }) 
 
   it('should create', () => {
     expect(component).toBeTruthy()

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { AuthComponent } from './auth.component'
+import { StoreModule } from '@ngrx/store'
+import { appReducers } from '../store/app.reducer'
 
 describe('AuthComponent', () => {
   let component: AuthComponent
@@ -8,6 +10,9 @@ describe('AuthComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot(appReducers),
+      ],
       declarations: [AuthComponent],
     }).compileComponents()
   })
