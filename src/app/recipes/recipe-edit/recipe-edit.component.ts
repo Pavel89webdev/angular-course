@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import { Recipe } from '../recipe.model'
 import { Store } from '@ngrx/store'
@@ -61,12 +61,12 @@ export class RecipeEditComponent implements OnInit, OnChanges {
         this.recipe?.description || null,
         Validators.required
       ),
-      ingredients: new FormArray(ingredients),
+      ingredients: new UntypedFormArray(ingredients),
     })
   }
 
   get ingredients() {
-    return this.recipeFormGroup.get('ingredients') as FormArray
+    return this.recipeFormGroup.get('ingredients') as UntypedFormArray
   }
 
   private getNewIngredientFormGroup(
@@ -83,7 +83,7 @@ export class RecipeEditComponent implements OnInit, OnChanges {
   }
 
   addIngredient() {
-    const ingredients = <FormArray>this.recipeFormGroup.get('ingredients')
+    const ingredients = <UntypedFormArray>this.recipeFormGroup.get('ingredients')
     const newIngredientFormGroup = this.getNewIngredientFormGroup(null, null)
 
     ingredients.push(newIngredientFormGroup)
@@ -114,7 +114,7 @@ export class RecipeEditComponent implements OnInit, OnChanges {
         })
       )
     } else {
-      const newId = String(Number(this.allRecipes[this.allRecipes.length - 1].id) + 1) 
+      const newId = String(Number(this.allRecipes[this.allRecipes.length - 1].id) + 1)
 
       const newRecipe = new Recipe(
         this.recipeFormGroup.value.name,

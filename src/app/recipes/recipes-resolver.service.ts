@@ -1,4 +1,4 @@
-import { Resolve } from '@angular/router'
+
 import { Recipe } from './recipe.model'
 import { IAppState } from '../store/app.reducer'
 import { Store } from '@ngrx/store'
@@ -6,10 +6,10 @@ import * as recipeActions from './store/recipe.actions'
 import { Actions, ofType } from '@ngrx/effects'
 import { map, switchMap, take } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
-import { Observable, of, Subject } from 'rxjs'
+import {  of, Subject } from 'rxjs'
 
 @Injectable()
-export class RecipeResolver implements Resolve<Recipe[]> {
+export class RecipeResolver  {
   constructor(private store: Store<IAppState>, private action$: Actions) {}
 
   resolve() {
