@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, Validators, FormGroup } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { AppPlaceHolderDirective } from '../directives/placeholder.directive'
 import { AlertComponent } from '../shared/alert/alert.component'
@@ -30,11 +30,11 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
-      password: new FormControl(null, [
+      password: new UntypedFormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new UntypedFormControl(null, [Validators.required, Validators.email]),
     })
 
     this.storeSub = this.store.select('auth').subscribe((authState) => {
@@ -94,7 +94,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     viewContainerRef.clear();
     const alertCmponentRef = viewContainerRef.createComponent(AlertComponent);
 
-    alertCmponentRef.instance.message = errorMessage; 
+    alertCmponentRef.instance.message = errorMessage;
     this.errorAlertCloseSub = alertCmponentRef.instance.close;
 
     this.errorAlertCloseSub.subscribe(() => {
